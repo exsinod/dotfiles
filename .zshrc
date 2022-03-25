@@ -49,6 +49,7 @@ alias ff="nvim \$(find . -type f | fzf --preview='head -$LINES {}')"
 alias fd="cd \$(find . -type d | fzf --preview='head -$LINES {}')"
 
 alias gst="git status"
+alias gca="git commit --amend"
 alias gpull="git pull origin"
 alias gpush="git push origin"
 
@@ -96,6 +97,8 @@ function dkill() {
   docker kill `getDockerId $1`
 }
 
+precmd() { print "" }
+
 source /usr/share/nvm/init-nvm.sh
 
 export ANDROID_HOME=$HOME/Android/Sdk
@@ -103,6 +106,7 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/flutter/bin
 
 export NEXUS_NPM_TOKEN=NpmToken.f9e5f6a8-f850-3a5b-a89b-ac5ff8b33c54
 

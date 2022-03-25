@@ -36,6 +36,9 @@ call plug#begin('~/.vim/plugged')
         Plug 'nvim-telescope/telescope.nvim'
     " {{ Presenting }}
         Plug 'Chaitanyabsprip/present.nvim'
+    " {{ Flutter }}
+        Plug 'dart-lang/dart-vim-plugin'
+        Plug 'thosakwe/vim-flutter'
 
 call plug#end()
 lua <<EOF
