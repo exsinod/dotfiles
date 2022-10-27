@@ -59,8 +59,10 @@ alias cpull="c pull origin"
 alias cpush="c push origin"
 alias caddall='c ls-files | while read -r i; do c add "$i"; done'
 
-alias mci="mvn clean install"
-alias mcis="mvn clean install -DskipTests"
+alias imageToClipboard='xclip -selection clipboard -target image/png -i '
+
+alias mci="./mvnw clean install"
+alias mcis="./mvnw clean install -DskipTests"
 
 alias g="./gradlew"
 alias gcb="g clean build"
@@ -74,6 +76,8 @@ alias dkupd="dkup -d"
 alias dkdown="dk down -v"
 alias dks="dk scale"
 alias dkl="dk logs -f"
+
+alias startwork="cd $HOME/code/work && tmux"
 
 function dockerClean() {
   docker rm $(docker ps -a -q)

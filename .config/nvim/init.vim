@@ -39,6 +39,8 @@ call plug#begin('~/.vim/plugged')
     " {{ Flutter }}
         Plug 'dart-lang/dart-vim-plugin'
         Plug 'thosakwe/vim-flutter'
+    " {{ Golang }}
+        Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 lua <<EOF
@@ -137,6 +139,7 @@ set expandtab                   " Use spaces instead of tabs.
 set smarttab                    " Be smart using tabs ;)
 set shiftwidth=2                " One tab == four spaces.
 set tabstop=2                   " One tab == four spaces.
+autocmd FileType java setlocal shiftwidth=4 tabstop=4
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree
