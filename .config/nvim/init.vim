@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 	"{{ The Basics }}
       Plug 'morhetz/gruvbox'
+      Plug 'honza/vim-snippets'
       Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 	    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	    Plug 'itchyny/lightline.vim'                       " Lightline statusbar
@@ -45,7 +46,6 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = { "javascript" }, -- List of parsers to ignore installing
   highlight = {
     enable = true,              -- false will disable the whole extension
@@ -60,6 +60,10 @@ if exists('+termguicolors')
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
+
+let g:UltiSnipsExpandTrigger = '<TAB>'
+let g:UltiSnipsJumpForwardTrigger = '<C=j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C=k>'
 
 " Correcting FZF goodness
 "
