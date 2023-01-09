@@ -13,6 +13,8 @@ return require("packer").startup(function(use)
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
 	})
 
+	use({ "f-person/git-blame.nvim" })
+
 	-- fuzzy finder
 	use({
 		"nvim-telescope/telescope.nvim",

@@ -19,7 +19,6 @@ export VISUAL='nvim'
 
 # Aliae
 
-alias cdd="cd ~/Development/salespoint"
 alias nva="nvim ~/.config/alacritty/alacritty.yml"
 alias nvz="nvim ~/.zshrc"
 alias nvv="nvim ~/.config/nvim/init.lua"

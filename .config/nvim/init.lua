@@ -43,6 +43,8 @@ require("lspconfig").yamlls.setup({ capabilities = capabilities })
 -- Commenting code
 require("nvim_comment").setup()
 
+-- require("git-blame").setup()
+
 -- Pretty formatting
 require("formatter").setup({
 	filetype = {
@@ -70,11 +72,13 @@ require("nvim-tree").setup({
 	view = {
 		mappings = {
 			list = {
+				{ key = "u", action = "dirup" },
 				{ key = "|", action = "vsplit" },
 				{ key = "-", action = "split" },
 			},
 		},
 	},
+	ignore_ft_on_setup = { "gitcommit" },
 	open_on_setup = true,
 	open_on_setup_file = true,
 	hijack_cursor = true,
@@ -86,6 +90,22 @@ require("nvim-tree").setup({
 -- recommended by nvim-tree to disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+-- Telescope
+require("telescope").setup({
+	pickers = {
+		find_files = {
+			additional_args = function(opts)
+				return { "--hidden" }
+			end,
+		},
+		live_grep = {
+			additional_args = function(opts)
+				return { "--hidden" }
+			end,
+		},
+	},
+})
 
 local set = vim.opt
 
@@ -110,6 +130,7 @@ set.tabstop = 4
 
 -- Autocommands
 -- format after save
+--
 local formatAutoGroup = vim.api.nvim_create_augroup("FormatAutogroup", {})
 vim.api.nvim_create_autocmd("BufWritePost", {
 	command = ":FormatWrite",
@@ -117,20 +138,25 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 })
 
 -- Keymaps
+-- Nvim tree
+vim.keymap.set("n", "<leader>n", ":NvimTreeOpen")
 -- Easy coding
 vim.keymap.set("n", "rr", ":!cargo run<CR>")
+vim.keymap.set("n", "<leader>at", ":ASToggle<CR>", {})
 
 -- LSP
 vim.keymap.set("n", "gd", ":lua vim.lsp.buf.definition()<CR>")
 vim.keymap.set("n", "gr", ":lua vim.lsp.buf.references()<CR>")
+vim.keymap.set("n", "grn", ":lua vim.lsp.buf.rename()<CR>")
 vim.keymap.set("n", "gi", ":lua vim.lsp.buf.implementation()<CR>")
 vim.keymap.set("n", "gk", ":lua vim.lsp.buf.hover()<CR>")
 vim.keymap.set("n", "go", ":lua vim.diagnostic.open_float()<CR>")
+vim.keymap.set("n", "gs", ":lua vim.lsp.buf.code_action()<CR>")
 
 -- Finding
 vim.keymap.set("n", "<C-p>", ":Telescope find_files<CR>")
 vim.keymap.set("n", "<C-f>", ":Telescope live_grep<CR>")
-vim.keymap.set("n", "<Leader>n", ":NvimTreeFindFile<CR>")
+vim.keymap.set("n", "<C-b>", ":Telescope buffers<CR>")
 
 -- Easy window navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h")
