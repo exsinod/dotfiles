@@ -1,12 +1,6 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="dieter"
 
@@ -55,12 +49,19 @@ alias gcbt="g clean build -x test"
 alias gcbtp="g clean build -x test -x pmdMain -x pmdTest"
 alias gc="g clean"
 
+alias awsnonprod="kubectl config set-context arn:aws:eks:eu-west-1:137505996109:cluster/shared-non-prod-1"
+alias awsprod="kubectl config set-context arn:aws:eks:eu-west-1:003253549466:cluster/shared-prod-1"
+
 alias dk="docker-compose"
 alias dkup="dk up"
 alias dkupd="dkup -d"
 alias dkdown="dk down -v"
 alias dks="dk scale"
 alias dkl="dk logs -f"
+
+function decodeBase64() {
+  echo $1 | base64 -D
+}
 
 function dockerClean() {
   docker rm $(docker ps -a -q)
@@ -84,12 +85,22 @@ function dkill() {
   docker kill `getDockerId $1`
 }
 
-source /usr/share/nvm/init-nvm.sh
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export PATH=$HOME/Library/Android/sdk/platform-tools:$PATH
+export PATH=$HOME/bin/flutter/bin:$PATH
 export NEXUS_NPM_TOKEN=NpmToken.f9e5f6a8-f850-3a5b-a89b-ac5ff8b33c54
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/sinod/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/sinod/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/sinod/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/sinod/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

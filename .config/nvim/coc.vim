@@ -1,3 +1,4 @@
+"let g:coc_default_semantic_highlight_groups = 1
 " TextEdit might fail if hidden is not set.
 set hidden
 

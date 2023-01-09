@@ -30,12 +30,21 @@ call plug#begin('~/.vim/plugged')
         " else
         "     Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
         " endif
+        Plug 'dart-lang/dart-vim-plugin'
     "{{ Javascript and typescript }}
         Plug 'yuezk/vim-js'
         Plug 'maxmellon/vim-jsx-pretty'
         Plug 'HerringtonDarkholme/yats.vim'
+        " {{ Telescope }}
+        Plug 'nvim-lua/popup.nvim'
+        Plug 'nvim-lua/plenary.nvim'
+        " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        " Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+        " Plug 'nvim-telescope/telescope.nvim'
 
 call plug#end()
+
+let NERDTreeCustomOpenArgs={'file':{'where': 't'}}
 
 " Set true colors
 if exists('+termguicolors')
@@ -120,8 +129,8 @@ set noshowmode
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set expandtab                   " Use spaces instead of tabs.
 set smarttab                    " Be smart using tabs ;)
-set shiftwidth=4                " One tab == four spaces.
-set tabstop=4                   " One tab == four spaces.
+set shiftwidth=2                " One tab == four spaces.
+set tabstop=2                   " One tab == four spaces.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree
@@ -208,7 +217,9 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap gq :tabclose<CR>
+" nnoremap qt :tabclose<CR>
+" nnoremap nt :tabn<CR>
+" nnoremap pt :tabp<CR>
 
 " Make adjusing split sizes a bit more friendly
 noremap <silent> <C-Left> :vertical resize +3<CR>

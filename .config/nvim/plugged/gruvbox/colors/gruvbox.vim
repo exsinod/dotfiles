@@ -86,7 +86,8 @@ let s:is_dark=(&background == 'dark')
 let s:gb = {}
 
 " fill it with absolute colors
-let s:gb.dark0_hard  = ['#1d2021', 234]     " 29-32-33
+" let s:gb.dark0_hard  = ['#1d2021', 234]     " 29-32-33
+let s:gb.dark0_hard  = ['#ccc', 234]     " 29-32-33
 let s:gb.dark0       = ['#282828', 235]     " 40-40-40
 let s:gb.dark0_soft  = ['#32302f', 236]     " 50-48-47
 let s:gb.dark1       = ['#3c3836', 237]     " 60-56-54
@@ -1280,8 +1281,9 @@ hi! link moonObject GruvboxYellow
 " }}}
 " Java: {{{
 
-hi! link javaAnnotation GruvboxBlue
-hi! link javaDocTags GruvboxAqua
+hi! link TSInclude GruvboxOrange
+hi! link javaAnnotation GruvboxYellow
+hi! link javaDocTags GruvboxGreen
 hi! link javaCommentTitle vimCommentTitle
 hi! link javaParen GruvboxFg3
 hi! link javaParen1 GruvboxFg3
@@ -1290,8 +1292,7 @@ hi! link javaParen3 GruvboxFg3
 hi! link javaParen4 GruvboxFg3
 hi! link javaParen5 GruvboxFg3
 hi! link javaOperator GruvboxOrange
-
-hi! link javaVarArg GruvboxGreen
+hi! link javaTypedef GruvboxPurple
 
 " }}}
 " Elixir: {{{
