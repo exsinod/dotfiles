@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="dieter"
+ZSH_THEME="rgm" # set by `omz`
 
 plugins=(
   git
@@ -75,9 +75,9 @@ function dkill() {
   docker kill `getDockerId $1`
 }
 
-export PATH=$HOME/Library/Android/sdk/platform-tools:$PATH
+export PATH=$HOME/.local/bin/flutter/bin:$PATH
 export NEXUS_NPM_TOKEN=NpmToken.f9e5f6a8-f850-3a5b-a89b-ac5ff8b33c54
-export NVM_DIR="$HOME/.nvm"
+export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
