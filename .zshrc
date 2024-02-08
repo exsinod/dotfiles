@@ -19,6 +19,8 @@ export VISUAL='nvim'
 
 # Aliae
 
+alias ls="exa -lla"
+
 alias nva="nvim ~/.config/alacritty/alacritty.yml"
 alias nvz="nvim ~/.zshrc"
 alias nvv="nvim ~/.config/nvim/init.lua"
@@ -57,6 +59,9 @@ function dockerClean() {
   docker rm $(docker ps -a -q)
   # Delete all images
   docker rmi $1 $(docker images -q)
+  docker system prune
+  docker network prune
+  docker volume prune
 }
 
 function dklogs() {
@@ -75,7 +80,25 @@ function dkill() {
   docker kill `getDockerId $1`
 }
 
-export PATH=$HOME/.local/bin/flutter/bin:$PATH
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+export NEXUS_USERNAME=lab-builduser
+export NEXUS_PASSWORD=iuK7CRfiYpJ7Hhxyauqi
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# python
+export PATH="$(pyenv root)/shims:${PATH}"
+pyenv global 2.7.18 3.10
+
+export PATH=$HOME/developer/flutter/bin:$HOME/.pub-cache/bin:$HOME/developer/nvim-macos/bin:$PATH
 export NEXUS_NPM_TOKEN=NpmToken.f9e5f6a8-f850-3a5b-a89b-ac5ff8b33c54
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

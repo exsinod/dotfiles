@@ -67,4 +67,13 @@ return require("packer").startup(function(use)
 			require("auto-save").setup({})
 		end,
 	})
+
+	-- Toggle term
+	use({
+		"akinsho/toggleterm.nvim",
+		tag = "*",
+		config = function()
+			require("toggleterm").setup()
+		end,
+	})
 end)

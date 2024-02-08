@@ -78,13 +78,9 @@ require("nvim-tree").setup({
 			},
 		},
 	},
-	ignore_ft_on_setup = { "gitcommit" },
-	open_on_setup = true,
-	open_on_setup_file = true,
 	hijack_cursor = true,
 	update_focused_file = {
 		enable = true,
-		update_root = true,
 	},
 })
 -- recommended by nvim-tree to disable netrw
@@ -107,6 +103,11 @@ require("telescope").setup({
 	},
 })
 
+-- ToggleTerm
+require("toggleterm").setup({
+	direction = "float",
+})
+
 local set = vim.opt
 
 -- Colorscheme with pretty colors
@@ -120,6 +121,7 @@ set.clipboard = "unnamedplus"
 set.hidden = true
 set.wrap = false
 
+set.autochdir = true
 set.undofile = true
 set.undodir = os.getenv("XDG_CACHE_HOME") .. "/nvim/undo"
 
@@ -131,22 +133,40 @@ set.tabstop = 4
 -- Autocommands
 -- format after save
 --
-local formatAutoGroup = vim.api.nvim_create_augroup("FormatAutogroup", {})
-vim.api.nvim_create_autocmd("BufWritePost", {
-	command = ":FormatWrite",
-	group = formatAutoGroup,
-})
+-- Open nvim tree on startup
+local function open_nvim_tree()
+	if vim.bo.filetype == "gitcommit" then
+		return
+	end
+	-- open the tree
+	require("nvim-tree.api").tree.toggle({ focus = false, find_file = true })
+end
+
+local function ch_dir()
+	local current_dir = vim.fn.expand("%:p:h")
+	vim.env.PWD = current_dir
+end
+
+vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, { callback = ch_dir })
+
+-- local formatAutoGroup = vim.api.nvim_create_augroup("FormatAutogroup", {})
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+-- 	command = ":FormatWrite",
+-- 	group = formatAutoGroup,
+-- })
 
 -- Keymaps
 -- Nvim tree
-vim.keymap.set("n", "<leader>n", ":NvimTreeOpen")
+vim.keymap.set("n", "<leader>n", ":NvimTreeOpen<CR>")
 -- Easy coding
-vim.keymap.set("n", "rr", ":!cargo run<CR>")
+vim.keymap.set("n", "rr", ":!cargo build<CR>")
 vim.keymap.set("n", "<leader>at", ":ASToggle<CR>", {})
 
 -- LSP
+local builtin = require("telescope.builtin")
 vim.keymap.set("n", "gd", ":lua vim.lsp.buf.definition()<CR>")
-vim.keymap.set("n", "gr", ":lua vim.lsp.buf.references()<CR>")
+vim.keymap.set("n", "gr", builtin.lsp_references, {})
 vim.keymap.set("n", "grn", ":lua vim.lsp.buf.rename()<CR>")
 vim.keymap.set("n", "gi", ":lua vim.lsp.buf.implementation()<CR>")
 vim.keymap.set("n", "gk", ":lua vim.lsp.buf.hover()<CR>")
@@ -163,3 +183,6 @@ vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
+
+-- Terminal
+vim.keymap.set("n", "<leader>t", ":ToggleTerm dir=$PWD<CR>")
