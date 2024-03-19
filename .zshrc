@@ -74,8 +74,10 @@ function dkexec() {
 function dkill() {
   docker kill `getDockerId $1`
 }
+export PATH=$HOME/.local/flutter/bin:$HOME/.pub-cache/bin:$PATH
+export PATH=~/Android/Sdk/tools:$PATH
+export PATH=~/Android/Sdk/platform-tools:$PATH
 
-export PATH=$HOME/.local/bin/flutter/bin:$PATH
 export NEXUS_NPM_TOKEN=NpmToken.f9e5f6a8-f850-3a5b-a89b-ac5ff8b33c54
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
