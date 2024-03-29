@@ -57,7 +57,7 @@ return require("packer").startup(function(use)
 		requires = {
 			"nvim-tree/nvim-web-devicons",
 		},
-		tag = "nightly",
+		tag = "release-please--branches--master--components--nvim-tree",
 	})
 
 	-- Auto Save

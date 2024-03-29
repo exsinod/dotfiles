@@ -3,7 +3,7 @@ require("plugins")
 -- LSP support
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("lspconfig").sumneko_lua.setup({
+require("lspconfig").lua_ls.setup({
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -48,6 +48,12 @@ require("nvim_comment").setup()
 -- Pretty formatting
 require("formatter").setup({
 	filetype = {
+		css = {
+			require("formatter.filetypes.css").prettier,
+		},
+		html = {
+			require("formatter.filetypes.html").prettier,
+		},
 		lua = {
 			require("formatter.filetypes.lua").stylua,
 		},
@@ -69,18 +75,18 @@ require("lualine").setup({
 
 -- nvim-tree
 require("nvim-tree").setup({
-	view = {
-		mappings = {
-			list = {
-				{ key = "u", action = "dirup" },
-				{ key = "|", action = "vsplit" },
-				{ key = "-", action = "split" },
-			},
-		},
-	},
-	ignore_ft_on_setup = { "gitcommit" },
-	open_on_setup = true,
-	open_on_setup_file = true,
+	-- view = {
+	-- 	mappings = {
+	-- 		list = {
+	-- 			{ key = "u", action = "dirup" },
+	-- 			{ key = "|", action = "vsplit" },
+	-- 			{ key = "-", action = "split" },
+	-- 		},
+	-- 	},
+	-- },
+	-- ignore_ft_on_setup = { "gitcommit" },
+	-- open_on_setup = true,
+	-- open_on_setup_file = true,
 	hijack_cursor = true,
 	update_focused_file = {
 		enable = true,

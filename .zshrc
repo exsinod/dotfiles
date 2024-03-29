@@ -1,31 +1,24 @@
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="rgm" # set by `omz`
-
-plugins=(
-  git
-)
-
-source $ZSH/oh-my-zsh.sh
-
 export GRADLE_USER_HOME=$HOME/.gradle
 
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_DIRS=/var/lib/flatpak/exports/share
 
 export EDITOR='nvim'
 export VISUAL='nvim'
 
 # Aliae
 
-alias nva="nvim ~/.config/alacritty/alacritty.yml"
+alias nva="nvim ~/.config/alacritty/alacritty.toml"
 alias nvz="nvim ~/.zshrc"
 alias nvv="nvim ~/.config/nvim/init.lua"
 alias nvt="nvim ~/.tmux.conf"
 
 alias ff="nvim \$(find . -type f | fzf --preview='head -$LINES {}')"
 alias fd="cd \$(find . -type d | fzf --preview='head -$LINES {}')"
+
+alias ls="exa -l"
 
 alias gs="git status"
 alias gpull="git pull origin"
@@ -74,11 +67,7 @@ function dkexec() {
 function dkill() {
   docker kill `getDockerId $1`
 }
-export PATH=$HOME/.local/flutter/bin:$HOME/.pub-cache/bin:$PATH
-export PATH=~/Android/Sdk/tools:$PATH
-export PATH=~/Android/Sdk/platform-tools:$PATH
 
-export NEXUS_NPM_TOKEN=NpmToken.f9e5f6a8-f850-3a5b-a89b-ac5ff8b33c54
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
