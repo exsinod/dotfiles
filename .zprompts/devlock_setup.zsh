@@ -13,7 +13,7 @@ EOF
 prompt_devlock_setup () {
   local -a pcc
   local -A pc
-  local p_date p_tty p_plat p_ver p_userpwd p_apm p_shlvlhist p_rc p_end p_win
+  local p_userpwd p_end p_win
 
   autoload -Uz vcs_info
 
@@ -25,14 +25,14 @@ prompt_devlock_setup () {
 
   pc['\[']="%F{$pcc[1]}["
   pc['\]']="%F{$pcc[1]}]"
-  pc['<']="%F{$pcc[1]}<"
-  pc['>']="%F{$pcc[1]}>"
+  pc['<']="%F{$pcc[3]}<"
+  pc['>']="%F{$pcc[3]}>"
   pc['\(']="%F{$pcc[1]}("
   pc['\)']="%F{$pcc[1]})"
 
   [[ -n "$WINDOW" ]] && p_win="$pc['\(']%F{$pcc[4]}$WINDOW$pc['\)']"
 
-  p_userpwd="$pc['<']%F{$pcc[3]}%n@%m$p_win%F{$pcc[5]}:%F{$pcc[4]}%~$pc['>']"
+  p_userpwd="$pc['<']%F{$pcc[2]}%n@%m$p_win%F{$pcc[5]}:%F{$pcc[4]}%~$pc['>']"
   local p_vcs="%(2v.%U%2v%u.)"
 
   p_end="%f%B%#%b "
@@ -49,8 +49,23 @@ prompt_devlock_setup () {
 
 prompt_devlock_precmd () {
   setopt noxtrace noksharrays localoptions
+  local -a pcc
+  local -A pc
   local exitstatus=$?
   local git_dir git_ref
+
+  pcc[1]=${1:-${${SSH_CLIENT+'yellow'}:-'red'}}
+  pcc[2]=${2:-'cyan'}
+  pcc[3]=${3:-'green'}
+  pcc[4]=${4:-'yellow'}
+  pcc[5]=${5:-'white'}
+
+  pc['\[']="%F{$pcc[1]}["
+  pc['\]']="%F{$pcc[1]}]"
+  pc['<']="%F{$pcc[3]}<"
+  pc['>']="%F{$pcc[3]}>"
+  pc['\(']="%F{$pcc[1]}("
+  pc['\)']="%F{$pcc[1]})"
 
   psvar=()
   [[ $exitstatus -ge 128 ]] && psvar[1]=" $signals[$exitstatus-127]" ||
@@ -63,7 +78,7 @@ prompt_devlock_precmd () {
 }
 
 prompt_devlock_preexec () {
-  setopt noxtrace noksharrays localoptions
+  setopt noxtrace noksharrays
   date
 }
 

@@ -1,28 +1,35 @@
+source $HOME/.zprofile
+
 export GRADLE_USER_HOME=$HOME/.gradle
 
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CACHE_HOME=$HOME/.cache
-export XDG_DATA_DIRS=/var/lib/flatpak/exports/share
+export XDG_DATA_DIRS=/usr/share
 
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+export PATH="$PATH:/home/sven/.local/bin"
+export PATH=$PATH:$HOME/devtools/idea-IU-233.15026.9/bin/
+
 # Aliae
 
+alias vim="filepath=\$(FZF_DEFAULT_COMMAND='fd --type=f --hidden --strip-cwd-prefix --exclude .git' fzf); cd \$(dirname \$filepath) && nvim \$(basename \$filepath)"
+alias vimd="FZF_DEFAULT_COMMAND='fd --type=d --hidden --strip-cwd-prefix --exclude .git' && cd \$(fzf)"
 alias nva="nvim ~/.config/alacritty/alacritty.toml"
 alias nvz="nvim ~/.zshrc"
 alias nvv="nvim ~/.config/nvim/init.lua"
 alias nvt="nvim ~/.tmux.conf"
 
-alias ff="nvim \$(find . -type f | fzf --preview='head -$LINES {}')"
-alias fd="cd \$(find . -type d | fzf --preview='head -$LINES {}')"
+alias ls="eza -l --git"
 
-alias ls="exa -l"
-
-alias gs="git status"
+alias gst="git status"
 alias gpull="git pull origin"
 alias gpush="git push origin"
+alias glog1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all"
+alias glog2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'"
+alias glog=glog1
 
 alias c='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias cs="c status"
@@ -39,6 +46,7 @@ alias gcbt="g clean build -x test"
 alias gcbtp="g clean build -x test -x pmdMain -x pmdTest"
 alias gc="g clean"
 
+alias start_conda='eval "$(/home/sven/devtools/miniconda3/bin/conda shell.zsh hook)"'
 alias dk="docker-compose"
 alias dkup="dk up"
 alias dkupd="dkup -d"
@@ -68,6 +76,45 @@ function dkill() {
   docker kill `getDockerId $1`
 }
 
+# Init Starship
+eval "$(starship init zsh)"
+
+# Set up fzf key bindings for zsh
+eval "$(fzf --zsh)"
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'exa --tree --color=always {} | head -200'"
+
+_fzf_comprun() {
+    local command=$1
+    shift
+
+    case "$command" in
+        cd)             fzf --preview 'exa --tree --color=always {} | head -200'                "$@" ;;
+        export|unset)   fzf --preview "eval 'echo \${}'"                                       "$@" ;;
+        ssh)            fzf --preview 'dig {}'                                                  "$@" ;;
+        *)              fzf --preview 'bat -n --color=always --line-range :500 {}'  "$@" ;;
+    esac
+}
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/sven/devtools/miniconda4/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/sven/devtools/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/sven/devtools/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/sven/devtools/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -75,3 +122,9 @@ export NVM_DIR="$HOME/.config/nvm"
 export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/sven/devtools/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sven/devtools/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/sven/devtools/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sven/devtools/google-cloud-sdk/completion.zsh.inc'; fi

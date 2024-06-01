@@ -7,10 +7,10 @@ autoload -U compinit; compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
-fpath=("$HOME/.zprompts/links" "$fpath[@]")
-autoload -Uz promptinit
-promptinit
-prompt devlock
+# fpath=("$HOME/.zprompts/links" "$fpath[@]")
+# autoload -Uz promptinit
+# promptinit
+# prompt devlock
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
@@ -61,3 +61,6 @@ zle -N down-line-or-beginning-search
 
 [[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
+
+# Created by `pipx` on 2024-04-14 14:20:41
+export PATH="$PATH:/home/sven/.local/bin"
