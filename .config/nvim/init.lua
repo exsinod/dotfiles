@@ -42,7 +42,20 @@ require("mason-lspconfig").setup({
 })
 local function setup_jdtls(_)
     local jdtls = require("jdtls")
+    --
+    -- -- Debugging
+    local bundles = {
+    }
+    vim.list_extend(bundles,
+        vim.split(vim.fn.glob(
+            "/home/sven/devtools/vscode-java-test-0.41.1/server/*.jar", 1), "\n"))
+    -- vim.list_extend(bundles, vim.split(vim.fn.glob( DEBUG_TEST_PATH ), "\n"))
+
+    require('jdtls.dap').setup_dap_main_class_configs()
     jdtls.start_or_attach({
+        init_options = {
+            bundles = bundles
+        },
         settings = {
             java = {
                 eclipse = {
@@ -73,9 +86,40 @@ local function setup_jdtls(_)
             },
         },
         cmd = { "/home/sven/.local/share/nvim/mason/packages/jdtls/bin/jdtls" },
-        root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+        root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }),
     })
+
+    local dap = require('dap')
+    dap.configurations.java = { {
+        -- You need to extend the classPath to list your dependencies.
+        -- `nvim-jdtls` would automatically add the `classPaths` property if it is missing
+        classPaths = {},
+
+        jdkPath = "/home/sven/.sdkman/candidates/java/current/bin",
+        cwd = "${workspaceDir}"
+        ,
+        -- mainClass = "your.package.name.MainClassName",
+
+        -- If using the JDK9+ module system, this needs to be extended
+        -- `nvim-jdtls` would automatically populate this property
+        modulePaths = {},
+        type = 'java',
+        request = 'attach',
+        hostName = '127.0.0.1',
+        port = 5005,
+        -- name = "Launch file",
+        -- program =
+        -- "/home/sven/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-0.50.0.jar"
+    } }
+    dap.adapters.java = function(callback, config)
+        require('jdtls.util').execute_command({ command = 'vscode.java.startDebugSession' }, function(err0, port)
+            assert(not err0, vim.inspect(err0))
+            callback({ type = 'server', host = '127.0.0.1', port = port, })
+        end)
+    end
+    jdtls.setup_dap({ hotcodereplace = 'auto' })
 end
+
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("java_cmds", { clear = true }),
     pattern = { "java" },
@@ -104,7 +148,8 @@ require("lspconfig").rust_analyzer.setup({ capabilities = capabilities })
 require("lspconfig").taplo.setup({ capabilities = capabilities })
 require("lspconfig").tsserver.setup({ capabilities = capabilities })
 require("lspconfig").yamlls.setup({ capabilities = capabilities })
-require("lspconfig").pylsp.setup({ capabilities = capabilities })
+require("lspconfig").pyright.setup({ capabilities = capabilities })
+require("lspconfig").bash_language_server.setup({ capabilities = capabilities })
 
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").load {
@@ -169,8 +214,8 @@ cmp.setup({
     })
 })
 -- gradle
-require("compiler").setup()
-require("overseer").setup()
+-- require("compiler").setup()
+-- require("overseer").setup()
 -- Commenting code
 require("nvim_comment").setup()
 
@@ -277,6 +322,12 @@ vim.g.loaded_netrwPlugin = 1
 -- Telescope
 
 require("telescope").setup({
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown {
+            }
+        }
+    },
     defaults = {
         file_ignore_patterns = { '%.class' } },
     pickers = {
@@ -292,6 +343,8 @@ require("telescope").setup({
         },
     },
 })
+require("telescope").load_extension("noice")
+require("telescope").load_extension("ui-select")
 
 local set = vim.opt
 

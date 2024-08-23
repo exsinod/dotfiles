@@ -32,7 +32,7 @@ return require("packer").startup(function(use)
     use({
         "nvim-telescope/telescope.nvim",
         tag = "0.1.x",
-        requires = { { "nvim-lua/plenary.nvim" } },
+        requires = { { "nvim-telescope/telescope-ui-select.nvim", "nvim-lua/plenary.nvim" } },
     })
     use({
         "nvim-treesitter/nvim-treesitter",
@@ -55,12 +55,15 @@ return require("packer").startup(function(use)
         config = true
     }
 
+    -- DAP debugger
+    use "mfussenegger/nvim-dap"
+    use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
 
     -- LSP installation
     use({
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
-        "mfussenegger/nvim-jdtls",
+        { "mfussenegger/nvim-jdtls", requires = { "mfussenegger/nvim-dap" } },
         -- "dcampos/nvim-snippy",
         -- "dcampos/cmp-snippy",
     })
@@ -93,11 +96,11 @@ return require("packer").startup(function(use)
     use { 'saadparwaiz1/cmp_luasnip' }
 
     -- Gradle
-    use("Zeioth/compiler.nvim")
-    use {
-        'stevearc/overseer.nvim',
-        config = function() require('overseer').setup() end
-    }
+    -- use("Zeioth/compiler.nvim")
+    -- use {
+    --     'stevearc/overseer.nvim',
+    --     config = function() require('overseer').setup() end
+    -- }
     -- tmux vim navigation
     use("christoomey/vim-tmux-navigator")
 

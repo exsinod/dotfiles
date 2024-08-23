@@ -7,6 +7,8 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_DIRS=/usr/share
 
+export GITHUB_ACTOR='D3vlock'
+
 export EDITOR='nvim'
 export VISUAL='nvim'
 
