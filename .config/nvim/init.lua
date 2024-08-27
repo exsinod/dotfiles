@@ -149,7 +149,11 @@ require("lspconfig").taplo.setup({ capabilities = capabilities })
 require("lspconfig").tsserver.setup({ capabilities = capabilities })
 require("lspconfig").yamlls.setup({ capabilities = capabilities })
 require("lspconfig").pyright.setup({ capabilities = capabilities })
+<<<<<<< Updated upstream
 require("lspconfig").bash_language_server.setup({ capabilities = capabilities })
+=======
+require("lspconfig").bashls.setup({ capabilities = capabilities })
+>>>>>>> Stashed changes
 
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").load {

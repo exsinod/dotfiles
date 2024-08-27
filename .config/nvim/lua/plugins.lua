@@ -52,7 +52,6 @@ return require("packer").startup(function(use)
 
             "nvim-telescope/telescope.nvim", -- optional
         },
-        config = true
     }
 
     -- DAP debugger
