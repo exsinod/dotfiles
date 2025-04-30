@@ -7,13 +7,14 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_DIRS=/usr/share
 
-export GITHUB_ACTOR='D3vlock'
-
 export EDITOR='nvim'
 export VISUAL='nvim'
 
-export PATH="$PATH:/home/sven/.local/bin"
-export PATH=$PATH:$HOME/devtools/idea-IU-233.15026.9/bin/
+export PATH="$PATH:/home/devlock/.local/bin"
+export PATH=$PATH:$HOME/devtools/jdt-language-server-1.9.0/bin/
+export PATH=$PATH:$HOME/devtools
+export PATH=$PATH:$HOME/.local/share/nvim/mason/bin
+export PATH=$PATH:$HOME/.local/share/nvim/mason/packages/bash-language-server/node_modules/.bin
 
 # Aliae
 
@@ -55,6 +56,13 @@ alias dkupd="dkup -d"
 alias dkdown="dk down -v"
 alias dks="dk scale"
 alias dkl="dk logs -f"
+
+alias dps="docker ps"
+
+function drm() {
+    docker rm $1
+    docker rmi $1
+}
 
 function dockerClean() {
   docker rm $(docker ps -a -q)
@@ -104,14 +112,14 @@ _fzf_comprun() {
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/sven/devtools/miniconda4/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/usr/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/sven/devtools/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/sven/devtools/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/usr/etc/profile.d/conda.sh" ]; then
+        . "/usr/etc/profile.d/conda.sh"
     else
-        export PATH="/home/sven/devtools/miniconda3/bin:$PATH"
+        export PATH="/usr/bin:$PATH"
     fi
 fi
 unset __conda_setup
